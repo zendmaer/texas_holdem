@@ -1,0 +1,10 @@
+# Project exclude paths
+/.gradle/
+.idea
+/build/
+/build/classes/java/*
+settings.gradle
+gradlew*
+*.iws
+*.iml
+*.ipr
