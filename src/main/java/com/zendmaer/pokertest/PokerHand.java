@@ -11,14 +11,14 @@ import java.util.Objects;
  * @version 1.0.0
  * @author Drachev A.S.
  */
-public final class PokerHand implements PokerHandImpl<PokerHand> {
+public final class PokerHand implements PokerHandBasic<PokerHand> {
     private final List<Card> cardCollection;
     private final String cards;
     private final CardRank cardRank;
 
     public PokerHand(String cards) {
         this.cards          = Objects.requireNonNull(cards, "Значение набора не должно быть null.").trim();
-        this.cardCollection = PokerHandImpl.convertToCardSet(cards);
+        this.cardCollection = PokerHandBasic.convertToCardSet(cards);
         this.cardRank       = calculateCardRank(cardCollection, RankHelper.initialize());
     }
 

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * @version 1.0.0
  * @author Drachev A.S.
  */
-interface PokerHandImpl <T extends PokerHandImpl<T>> extends Comparable<T> {
+interface PokerHandBasic<T extends PokerHandBasic<T>> extends Comparable<T> {
 
     int MAX_CARDS_SET = 5;
 
