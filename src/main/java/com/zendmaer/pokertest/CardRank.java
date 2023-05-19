@@ -43,10 +43,16 @@ public enum CardRank {
             List<Map.Entry<Integer, Long>> data1 = sortByValueAndKey( convert(one).entrySet() );
             List<Map.Entry<Integer, Long>> data2 = sortByValueAndKey( convert(two).entrySet() );
 
-            for (int i = 0, tempValue = 0; i < data1.size(); i++) {
-                 if ( (tempValue = Integer.compare(data1.get(i).getKey(), data2.get(i).getKey())) != 0) return tempValue;
+            int notPairComparedValue = 0;
+            Map.Entry<Integer, Long> v1, v2;
+            for (int i = data1.size() - 1, tempValue = 0; i >= 0; i--) {
+                v1 = data1.get(i);
+                v2 = data2.get(i);
+                if (notPairComparedValue == 0 && v1.getValue() == 1) notPairComparedValue = Integer.compare(v1.getKey(), v2.getKey());
+                else if (v1.getValue() != 1 && (tempValue = Integer.compare(v1.getKey(), v2.getKey())) != 0) return tempValue;
             }
-            return 0;
+
+            return notPairComparedValue;
         }
     },
 

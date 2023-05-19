@@ -194,4 +194,13 @@ public class PokerTest implements TestHelper {
                 List.of("kd 3c 3h 7s 7c (TWO_PAIRS)",
                         "as 2c 2d 7h 7c (TWO_PAIRS)"));
     }
+    @Test
+    void orderSetOnePairs() {
+
+        testOrderSet(List.of("5c 4d 6h 4s 9s",
+                             "5c 3d 7h 3s 9s"),
+
+                List.of("5c 4d 6h 4s 9s (PAIR)",
+                        "5c 3d 7h 3s 9s (PAIR)"));
+    }
 }
