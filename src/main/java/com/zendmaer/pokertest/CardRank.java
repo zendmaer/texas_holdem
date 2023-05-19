@@ -159,7 +159,7 @@ public enum CardRank {
         }
     }
 
-    public int commonCompareForOneOrTwoPair(List<Card> one, List<Card> two, int pair) {
+    protected int commonCompareForOneOrTwoPair(List<Card> one, List<Card> two, int pair) {
         List<Map.Entry<Integer, Long>> data1 = sortByValueAndKey( convert(one).entrySet() );
         List<Map.Entry<Integer, Long>> data2 = sortByValueAndKey( convert(two).entrySet() );
 
