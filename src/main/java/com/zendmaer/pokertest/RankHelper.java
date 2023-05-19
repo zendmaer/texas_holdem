@@ -14,7 +14,7 @@ public final class RankHelper {
     private static final int FOUR_CARDS  = 4,
                              THREE_CARDS = 3,
                              TWO_CARDS   = 2;
-    private static RankHelper rankHelper;
+    private static RankHelper rankHelper = new RankHelper();
 
     private RankHelper() { }
 
@@ -31,8 +31,8 @@ public final class RankHelper {
      * то сделаем примитивный Синглтон.
      * @return @{@link RankHelper}
      */
-    public static synchronized RankHelper initialize() {
-        return (rankHelper == null ? (rankHelper = new RankHelper()) : rankHelper).resetParams();
+    public static RankHelper initialize() {
+        return rankHelper.resetParams();
     }
 
     public void calculate(Card current, Card next) {

@@ -18,7 +18,7 @@ public final class PokerHand implements PokerHandBasic<PokerHand> {
 
     public PokerHand(String cards) {
         this.cards          = Objects.requireNonNull(cards, "Значение набора не должно быть null.").trim();
-        this.cardCollection = PokerHandBasic.convertToCardSet(cards);
+        this.cardCollection = PokerHandBasic.convertToCardList(cards);
         this.cardRank       = calculateCardRank(cardCollection, RankHelper.initialize());
     }
 
@@ -42,10 +42,6 @@ public final class PokerHand implements PokerHandBasic<PokerHand> {
         int tempValue =  Integer.compare(cardRank.getRankNumber(), o.cardRank.getRankNumber());
         if (tempValue != 0) return tempValue;
 
-        for (int i = 0; i < cardCollection.size(); i++) {
-            if ( ( tempValue = Integer.compare(cardCollection.get(i).getValue(),
-                    o.cardCollection.get(i).getValue()) ) != 0) return tempValue;
-        }
-        return 0;
+        return cardRank.compareSameRank(cardCollection, o.cardCollection);
     }
 }

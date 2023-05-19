@@ -67,11 +67,11 @@ public final class Card implements Comparable<Card> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Card card)) return false;
-        return value == card.value && suit == card.suit && cardValue.equals(card.cardValue);
+        return cardValue.equals(card.cardValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardValue, value, suit);
+        return Objects.hash(cardValue);
     }
 }

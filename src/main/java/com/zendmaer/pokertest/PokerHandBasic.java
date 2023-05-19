@@ -21,7 +21,7 @@ interface PokerHandBasic<T extends PokerHandBasic<T>> extends Comparable<T> {
     String getCards();
     CardRank getCardRank();
 
-    static List<Card> convertToCardSet(String textCard) {
+    static List<Card> convertToCardList(String textCard) {
         return Stream.of(textCard.split("\\s+"))
                 .map(String::toUpperCase)
                 .distinct()
