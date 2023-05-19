@@ -154,7 +154,7 @@ public enum CardRank {
         int tL = two.get(lastIndex).getValue();
 
         //Для универсальности
-        if (2 <= lastIndex && oF == one.get(2).getValue()) {
+        if (oF == one.get(2).getValue()) {
             if (oF > tF) return 1;
             else if (oF < tF) return -1;
             return function.someData(oL, tL, one.subList(3, one.size()), two.subList(3, two.size()));
