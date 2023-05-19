@@ -56,7 +56,7 @@ public enum CardRank {
      */
     THREE_OF_KIND(4) {
         public int compareSameRank(List<Card> one, List<Card> two) {
-            return commonCompareForThreeAndMoreSameCards(one, two, (v1, v2, list1, list2) -> HIGH_CARD.compareSameRank(one, two));
+            return commonCompareForThreeAndFourSameCards(one, two, (v1, v2, list1, list2) -> HIGH_CARD.compareSameRank(one, two));
         }
     },
 
@@ -96,7 +96,7 @@ public enum CardRank {
      */
     FOUR_OF_A_KIND(8) {
         public int compareSameRank(List<Card> one, List<Card> two) {
-            return commonCompareForThreeAndMoreSameCards(one, two, (v1, v2, list1, list2) -> Integer.compare(v1, v2));
+            return commonCompareForThreeAndFourSameCards(one, two, (v1, v2, list1, list2) -> Integer.compare(v1, v2));
         }
     },
 
@@ -145,7 +145,7 @@ public enum CardRank {
         return cards.stream().sorted(Map.Entry.<Integer, Long>comparingByValue(Comparator.reverseOrder()).thenComparing(Map.Entry::getKey)).collect(Collectors.toList());
     }
 
-    protected int commonCompareForThreeAndMoreSameCards(List<Card> one, List<Card> two, ComparingFunction<Card> function) {
+    protected int commonCompareForThreeAndFourSameCards(List<Card> one, List<Card> two, ComparingFunction<Card> function) {
         int oF = one.get(0).getValue();
         int tF = two.get(0).getValue();
 
