@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 /**
  * <b>Порядок набора карт (от меньшего к большему)</b>
  *
- * @version 1.0.1
  * @author Drachev A.S.
+ * @version 1.0.2
  */
 public enum CardRank {
 
@@ -18,7 +18,7 @@ public enum CardRank {
     HIGH_CARD(1) {
         public int compareSameRank(List<Card> one, List<Card> two) {
             for (int i = 0, tempValue = 0; i < one.size(); i++) {
-                if ( (tempValue = one.get(i).getValue() - two.get(i).getValue()) != 0) return tempValue;
+                if ((tempValue = one.get(i).getValue() - two.get(i).getValue()) != 0) return tempValue;
             }
             return 0;
         }
@@ -50,7 +50,7 @@ public enum CardRank {
      */
     THREE_OF_KIND(4) {
         public int compareSameRank(List<Card> one, List<Card> two) {
-            return commonCompareForThreeAndFourSameCards(one, two, (v1, v2, list1, list2) -> HIGH_CARD.compareSameRank(one, two));
+            return commonCompareForThreeAndFourSameCards(one, two, 2, (v1, v2, list1, list2) -> HIGH_CARD.compareSameRank(one, two));
         }
     },
 
@@ -90,7 +90,7 @@ public enum CardRank {
      */
     FOUR_OF_A_KIND(8) {
         public int compareSameRank(List<Card> one, List<Card> two) {
-            return commonCompareForThreeAndFourSameCards(one, two, (v1, v2, list1, list2) -> Integer.compare(v1, v2));
+            return commonCompareForThreeAndFourSameCards(one, two, 3, (v1, v2, list1, list2) -> Integer.compare(v1, v2));
         }
     },
 
@@ -133,13 +133,14 @@ public enum CardRank {
     abstract public int compareSameRank(List<Card> one, List<Card> two);
 
     protected Map<Integer, Long> convert(List<Card> cards) {
-        return cards.stream().collect(Collectors.groupingBy(Card::getValue,  Collectors.counting()));
+        return cards.stream().collect(Collectors.groupingBy(Card::getValue, Collectors.counting()));
     }
+
     protected List<Map.Entry<Integer, Long>> sortByValueAndKey(Set<Map.Entry<Integer, Long>> cards) {
         return cards.stream().sorted(Map.Entry.<Integer, Long>comparingByValue(Comparator.reverseOrder()).thenComparing(Map.Entry::getKey)).collect(Collectors.toList());
     }
 
-    protected int commonCompareForThreeAndFourSameCards(List<Card> one, List<Card> two, ComparingFunction<Card> function) {
+    protected int commonCompareForThreeAndFourSameCards(List<Card> one, List<Card> two, int index, ComparingFunction<Card> function) {
         int oF = one.get(0).getValue();
         int tF = two.get(0).getValue();
 
@@ -147,15 +148,28 @@ public enum CardRank {
         int oL = one.get(lastIndex).getValue();
         int tL = two.get(lastIndex).getValue();
 
-        //Для универсальности
-        if (oF == one.get(2).getValue()) {
-            if (oF > tF) return 1;
-            else if (oF < tF) return -1;
-            return function.someData(oL, tL, one.subList(3, one.size()), two.subList(3, two.size()));
+        if (oF == one.get(index).getValue()) {
+
+            if (tF == two.get(index).getValue()) {
+                if (oF > tF) return 1;
+                else if (oF < tF) return -1;
+                return function.someData(oL, tL, one.subList(index + 1, lastIndex), two.subList(index + 1, lastIndex));
+            } else {
+                if (oF > tL) return 1;
+                else if (oF < tL) return -1;
+                return function.someData(oL, tF, one.subList(index + 1, lastIndex), two.subList(0, index));
+            }
         } else {
-            if (oL > tL) return 1;
-            else if (oL < tL) return -1;
-            return function.someData(oF, tF, one.subList(0, one.size() - 2), two.subList(0, two.size() - 2));
+
+            if (tF == two.get(index).getValue()) {
+                if (oL > tF) return 1;
+                else if (oL < tF) return -1;
+                return function.someData(oF, tL, one.subList(0, index), two.subList(index + 1, lastIndex));
+            } else {
+                if (oL > tL) return 1;
+                else if (oL < tL) return -1;
+                return function.someData(oF, tF, one.subList(0, index), two.subList(0, index));
+            }
         }
     }
 
@@ -165,7 +179,7 @@ public enum CardRank {
 
         int tempValue = 0;
 
-        for (int i = 0; i < pair; i++) {
+        for (int i = pair - 1; i >= 0; i--) {
             if ( (tempValue = Integer.compare(data1.get(i).getKey(), data2.get(i).getKey())) != 0) return tempValue;
         }
 

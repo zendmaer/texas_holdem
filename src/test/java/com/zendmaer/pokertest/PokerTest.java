@@ -203,4 +203,24 @@ public class PokerTest implements TestHelper {
                 List.of("5c 4d 6h 4s 9s (PAIR)",
                         "5c 3d 7h 3s 9s (PAIR)"));
     }
+
+    @Test
+    void orderSetFour() {
+
+        testOrderSet(List.of("9c 9h 9s 9d kc",
+                        "9c 9h 9s 9d 6c"),
+
+                List.of("9c 9h 9s 9d kc (FOUR_OF_A_KIND)",
+                        "9c 9h 9s 9d 6c (FOUR_OF_A_KIND)"));
+    }
+
+    @Test
+    void orderSetThree() {
+
+        testOrderSet(List.of("7c 7d 7h qh ks",
+                             "9c 9d 9h qh 6s"),
+
+                List.of("7c 7d 7h qh ks (THREE_OF_KIND)",
+                        "9c 9d 9h qh 6s (THREE_OF_KIND)"));
+    }
 }
